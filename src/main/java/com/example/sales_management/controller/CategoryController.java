@@ -1,0 +1,43 @@
+package com.example.sales_management.controller;
+
+import com.example.sales_management.entity.Category;
+import com.example.sales_management.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/categories")
+public class CategoryController {
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping
+    public List<Category> getAll() {
+        return categoryService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Category> getById(@PathVariable Long id) {
+        return categoryService.getById(id);
+    }
+
+    @PostMapping
+    public Category create(@RequestBody Category category) {
+        return categoryService.save(category);
+    }
+
+    @PutMapping("/{id}")
+    public Category update(@PathVariable Long id, @RequestBody Category category) {
+        category.setId(id);
+        return categoryService.save(category);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        categoryService.delete(id);
+    }
+}
