@@ -2,6 +2,7 @@ package com.example.sales_management.controller;
 
 import com.example.sales_management.entity.Category;
 import com.example.sales_management.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
+    public Category create(@Valid @RequestBody Category category) {
         return categoryService.save(category);
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category category) {
+    public Category update(@PathVariable Long id, @Valid @RequestBody Category category) {
         category.setId(id);
         return categoryService.save(category);
     }

@@ -1,6 +1,11 @@
 package com.example.sales_management.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
 import java.math.BigDecimal;
 
 @Entity
@@ -11,10 +16,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Tên sản phẩm không được để trống")
     private String name;
 
+    @NotNull(message = "Giá không được để trống")
+    @Min(value = 0, message = "Giá không được âm")
     private BigDecimal price;
 
+    @NotNull(message = "Số lượng không được để trống")
+    @Min(value = 0, message = "Số lượng không được âm")
     private Integer quantity;
 
     private String description;

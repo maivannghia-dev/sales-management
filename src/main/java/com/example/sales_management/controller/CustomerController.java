@@ -2,6 +2,7 @@ package com.example.sales_management.controller;
 
 import com.example.sales_management.entity.Customer;
 import com.example.sales_management.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer create(@RequestBody Customer customer) {
+    public Customer create(@Valid @RequestBody Customer customer) {
         return customerService.save(customer);
     }
 
     @PutMapping("/{id}")
-    public Customer update(@PathVariable Long id, @RequestBody Customer customer) {
+    public Customer update(@PathVariable Long id, @Valid @RequestBody Customer customer) {
         customer.setId(id);
         return customerService.save(customer);
     }

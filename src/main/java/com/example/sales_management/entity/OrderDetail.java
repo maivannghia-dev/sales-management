@@ -1,6 +1,9 @@
 package com.example.sales_management.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -11,16 +14,22 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Đơn hàng không được để trống")
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @NotNull(message = "Sản phẩm không được để trống")
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @NotNull(message = "Số lượng không được để trống")
+    @Min(value = 1, message = "Số lượng phải lớn hơn 0")
     private Integer quantity;
 
+    @NotNull(message = "Giá không được để trống")
+    @Min(value = 0, message = "Giá không được âm")
     private BigDecimal price;
 
     // Getters và Setters

@@ -2,6 +2,8 @@ package com.example.sales_management.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Khách hàng không được để trống")
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -22,6 +25,7 @@ public class Order {
 
     private BigDecimal totalAmount;
 
+    @NotNull(message = "Trạng thái không được để trống")
     private String status;
 
     @JsonIgnore
