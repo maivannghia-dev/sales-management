@@ -4,6 +4,7 @@ import com.example.sales_management.entity.OrderDetail;
 import com.example.sales_management.service.OrderDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class OrderDetailController {
     private OrderDetailService orderDetailService;
 
     @GetMapping
-    public List<OrderDetail> getAll() {
-        return orderDetailService.getAll();
+    public Page<OrderDetail> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return orderDetailService.getAll(page, size);
     }
 
     @GetMapping("/{id}")

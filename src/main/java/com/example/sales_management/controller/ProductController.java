@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/products")
@@ -17,8 +18,10 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAll() {
-        return productService.getAll();
+    public Page<Product> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return productService.getAll(page, size);
     }
 
     @GetMapping("/{id}")

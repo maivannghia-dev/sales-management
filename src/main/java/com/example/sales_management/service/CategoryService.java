@@ -3,6 +3,9 @@ package com.example.sales_management.service;
 import com.example.sales_management.entity.Category;
 import com.example.sales_management.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +17,9 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public Page<Category> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findAll(pageable);
     }
 
     public Optional<Category> getById(Long id) {

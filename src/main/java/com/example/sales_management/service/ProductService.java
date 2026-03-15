@@ -3,6 +3,9 @@ package com.example.sales_management.service;
 import com.example.sales_management.entity.Product;
 import com.example.sales_management.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +17,9 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public Page<Product> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
     }
 
     public Optional<Product> getById(Long id) {

@@ -4,6 +4,7 @@ import com.example.sales_management.entity.Category;
 import com.example.sales_management.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getAll() {
-        return categoryService.getAll();
+    public Page<Category> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return categoryService.getAll(page, size);
     }
 
     @GetMapping("/{id}")
