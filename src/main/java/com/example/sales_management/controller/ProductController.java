@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,22 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @GetMapping("/search")
+    public Page<Product> search(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return productService.searchByName(name, page, size);
+    }
+
+    @GetMapping("/filter")
+    public Page<Product> filter(
+            @RequestParam BigDecimal maxPrice,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return productService.filterByPrice(maxPrice, page, size);
+    }
 
     @GetMapping
     public Page<Product> getAll(
