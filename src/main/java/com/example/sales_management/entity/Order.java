@@ -1,6 +1,7 @@
 package com.example.sales_management.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,8 +29,8 @@ public class Order {
     @NotNull(message = "Trạng thái không được để trống")
     private String status;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "order")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
     // Getters và Setters
