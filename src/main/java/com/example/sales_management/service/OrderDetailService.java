@@ -2,6 +2,7 @@ package com.example.sales_management.service;
 
 import com.example.sales_management.entity.OrderDetail;
 import com.example.sales_management.repository.OrderDetailRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +23,10 @@ public class OrderDetailService {
         return orderDetailRepository.findAll(pageable);
     }
 
-    public Optional<OrderDetail> getById(Long id) {
-        return orderDetailRepository.findById(id);
+    public OrderDetail getById(Long id) {
+        return orderDetailRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Không tìm thấy chi tiết đơn hàng với id: " + id));
     }
 
     public OrderDetail save(OrderDetail orderDetail) {

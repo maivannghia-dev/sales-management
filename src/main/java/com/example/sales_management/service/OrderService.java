@@ -2,6 +2,7 @@ package com.example.sales_management.service;
 
 import com.example.sales_management.entity.Order;
 import com.example.sales_management.repository.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +24,10 @@ public class OrderService {
         return orderRepository.findAll(pageable);
     }
 
-    public Optional<Order> getById(Long id) {
-        return orderRepository.findById(id);
+    public Order getById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Không tìm thấy đơn hàng với id: " + id));
     }
 
     public Order save(Order order) {

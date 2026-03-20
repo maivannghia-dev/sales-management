@@ -2,6 +2,7 @@ package com.example.sales_management.service;
 
 import com.example.sales_management.entity.Product;
 import com.example.sales_management.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +34,10 @@ public class ProductService {
         return productRepository.findByPriceLessThanEqual(maxPrice, pageable);
     }
 
-    public Optional<Product> getById(Long id) {
-        return productRepository.findById(id);
+    public Product getById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Không tìm thấy sản phẩm với id: " + id));
     }
 
     public Product save(Product product) {
