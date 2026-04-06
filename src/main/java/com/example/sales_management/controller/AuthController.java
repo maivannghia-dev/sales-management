@@ -33,7 +33,7 @@ public class AuthController {
         User user = userService.findByUsername(username);
 
         if (user != null && userService.checkPassword(password, user.getPassword())) {
-            String token = jwtUtil.generateToken(username);
+            String token = jwtUtil.generateToken(username, user.getRole());
             return ResponseEntity.ok(Map.of("token", token));
         }
 

@@ -16,13 +16,19 @@ public class JwtUtil {
     private final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 giờ
 
     // Tạo token
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(key)
                 .compact();
+    }
+
+    // Lấy role từ token
+    public String extractRole(String token) {
+        return getClaims(token).get("role", String.class);
     }
 
     // Lấy username từ token

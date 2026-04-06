@@ -17,7 +17,9 @@ public class UserService {
     public User register(User user) {
         // Mã hóa password trước khi lưu
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
+        if (user.getRole() == null || user.getRole().isEmpty()) {
+            user.setRole("USER");
+        }
         return userRepository.save(user);
     }
 
