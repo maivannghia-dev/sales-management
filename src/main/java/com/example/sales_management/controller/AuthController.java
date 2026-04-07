@@ -3,6 +3,7 @@ package com.example.sales_management.controller;
 import com.example.sales_management.entity.User;
 import com.example.sales_management.security.JwtUtil;
 import com.example.sales_management.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,23 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(HttpServletRequest request){
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader.substring(7);
+        String username = jwtUtil.extractUsername(token);
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(Map.of(
+                "username", user.getUsername(),
+                "role", user.getRole()
+        ));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.ok(Map.of("message", "Đăng xuất thành công"));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
