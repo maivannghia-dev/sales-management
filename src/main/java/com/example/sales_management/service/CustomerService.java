@@ -18,6 +18,11 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    public Page<Customer> searchByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return customerRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
     public Page<Customer> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return customerRepository.findAll(pageable);

@@ -19,6 +19,11 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    public Page<Order> searchByCustomerName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return orderRepository.findByCustomerNameContainingIgnoreCase(name, pageable);
+    }
+
     public Page<Order> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return orderRepository.findAll(pageable);

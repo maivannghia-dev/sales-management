@@ -17,6 +17,14 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping("/search")
+    public Page<Customer> search(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return customerService.searchByName(name, page, size);
+    }
+
     @GetMapping
     public Page<Customer> getAll(
             @RequestParam(defaultValue = "0") int page,

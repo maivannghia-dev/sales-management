@@ -18,6 +18,11 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public Page<Category> searchByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
     public Page<Category> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return categoryRepository.findAll(pageable);

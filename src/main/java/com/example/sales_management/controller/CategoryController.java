@@ -17,6 +17,14 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @GetMapping("/search")
+    public Page<Category> search(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return categoryService.searchByName(name, page, size);
+    }
+
     @GetMapping
     public Page<Category> getAll(
             @RequestParam(defaultValue = "0") int page,

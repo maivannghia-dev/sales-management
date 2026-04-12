@@ -17,6 +17,14 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("/search")
+    public Page<Order> search(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return orderService.searchByCustomerName(name, page, size);
+    }
+
     @GetMapping
     public Page<Order> getAll(
             @RequestParam(defaultValue = "0") int page,
