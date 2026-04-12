@@ -19,6 +19,13 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    public Order updateStatus(Long id, String status) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy đơn hàng với id: " + id));
+        order.setStatus(status);
+        return orderRepository.save(order);
+    }
+
     public Page<Order> searchByCustomerName(String name, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return orderRepository.findByCustomerNameContainingIgnoreCase(name, pageable);

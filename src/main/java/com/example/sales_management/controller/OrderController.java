@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +17,11 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @PatchMapping("/{id}/status")
+    public Order updateStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        return orderService.updateStatus(id, request.get("status"));
+    }
 
     @GetMapping("/search")
     public Page<Order> search(
