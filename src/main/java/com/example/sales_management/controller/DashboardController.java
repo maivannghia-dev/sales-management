@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.LinkedHashMap;
+import java.util.List;
+import com.example.sales_management.entity.Order;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -23,6 +26,29 @@ public class DashboardController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @GetMapping("/revenue-by-month")
+    public Map<String, Object> getRevenueByMonth() {
+        List<Order> orders = orderRepository.findAll();
+
+        Map<String, BigDecimal> revenueByMonth = new LinkedHashMap<>();
+
+        // Khởi tạo 12 tháng = 0
+        for (int i = 1; i <= 12; i++) {
+            revenueByMonth.put("Tháng " + i, BigDecimal.ZERO);
+        }
+
+        // Tính doanh thu theo tháng
+        orders.forEach(order -> {
+            if (order.getOrderDate() != null && order.getTotalAmount() != null) {
+                int month = order.getOrderDate().getMonthValue();
+                String key = "Tháng " + month;
+                revenueByMonth.put(key, revenueByMonth.get(key).add(order.getTotalAmount()));
+            }
+        });
+
+        return Map.of("revenueByMonth", revenueByMonth);
+    }
 
     @GetMapping("/stats")
     public Map<String, Object> getStats() {
